@@ -1,0 +1,13 @@
+extends layout.pug
+
+block css   
+    link(rel="stylesheet", href="static/css/style.css")
+
+block content
+    each memory in memories
+        img(src= memory.file, alt= memory.title).img
+        h1 #{memory.title}
+
+    a(href="/memory/upload") 생성하기
+block js   
+    script(src="static/js/hello.js") 

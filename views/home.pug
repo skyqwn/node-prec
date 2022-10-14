@@ -1,0 +1,8 @@
+extends layout.pug 
+
+block content 
+  if isLogin 
+    h1 안녕하세요 #{user.name} 님
+
+  else 
+    h1 로그인해주세요
