@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+
+    div.form
+        img(src= `/${memory.file}`, alt= memory.title).img
+        form(action=`/memory/${memory._id}/update`, method="post" enctype="multipart/form-data")         
+            input(type="file", name="file" )
+            input(type="text", name="title" placeholder="제목" value=memory.title)
+            textarea(name="desc", cols="30", rows="10")=memory.desc
+            button(type="submit") 전송하기
+
+    script(src="/static/js/imgPreview.js") 

@@ -15,6 +15,11 @@ const MemorySchema = new Schema({
     type: String,
     required: true,
   },
+  creater: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 const Memory = mongoose.model("Memory", MemorySchema);

@@ -7,7 +7,7 @@ dotenv.config();
 export const home = (req, res) => {
   console.log(req.session);
   return res.render("home", {
-    isLogin: req.session.isLogin, // req.session.isLogin은 언제 설정된거임니까?
+    isLogin: req.session.isLogin,
     name: req.session.user,
   });
 };
@@ -24,25 +24,23 @@ export const joinPost = async (req, res, next) => {
       // error.status = 400;
       // error.message = "비밀번호가 틀립니다.";
       // return next(error);
-      return next(createError(400, "비밀번호 다름"));
+      return next(createError(400, "비밀번호가 같지 않습니다."));
     }
-    const existUser = await User.exists({ email });
+    const existUser = await User.exists({ email }); // await을 꼭 붙여야하는가?
 
     if (existUser) {
-      // console.log("같은 이메일유저가 있습니다");
-      // return res.status(400);
-      return next(createError(400, "이미 등록된 아이디가 있습니다."));
+      return next(createError(400, "이미 등록된 이메일입니다."));
     }
+    console.log(process.env.BCRYPT);
 
-    const hashedPassword = bcrypt.hashSync(password, process.env.BCRYPT);
-
+    const hashedPassword = bcrypt.hashSync(password, +process.env.BCRYPT);
     // console.log(hashedPassword);
     const newUser = new User({
       name,
       email,
       password: hashedPassword,
     });
-    await newUser.save(); //왜여기에 어웨잇을 붙이는가? 저장보다 밑에 랜더링을 먼저 실행될거 같아서인가?
+    await newUser.save();
 
     console.log(newUser);
     return res.render("login");
@@ -55,7 +53,7 @@ export const joinPost = async (req, res, next) => {
 export const loginPost = async (req, res, next) => {
   console.log(req.body);
   const {
-    body: { email, password: bodypassword },
+    body: { email, password: bodypassword }, //bodypassword는 어디서 왓냥..?
   } = req;
   try {
     const user = await User.findOne({ email });

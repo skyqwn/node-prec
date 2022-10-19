@@ -6,7 +6,6 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import sessions from "express-session";
 import MongoStore from "connect-mongo";
-import multer from "multer";
 dotenv.config();
 
 import globalRouter from "./routes/globalRouter.js";
@@ -39,7 +38,21 @@ const db = mongoose.connection;
 db.on("error", errorHandler);
 db.once("open", successHandler);
 
-app.use(helmet());
+const cspOptions = {
+  directives: {
+    ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+
+    "script-src": ["'self'"],
+
+    "img-src": ["'self'", "blob:"],
+  },
+};
+
+app.use(
+  helmet({
+    contentSecurityPolicy: cspOptions,
+  })
+);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

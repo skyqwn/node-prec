@@ -1,0 +1,14 @@
+extends layout.pug
+
+
+block content
+    img(src=`/${memory.file}`, alt= memory.title).img
+    h1 #{memory.title}
+    h2 #{memory.desc}
+    h3 글쓴놈 : #{memory.creater.name} 
+    if user._id === `${memory.creater._id}`
+        a(href=`/memory/${memory._id}/update`) 수정하기
+        a(href=`/memory/${memory._id}/delete`) 삭제하기  
+
+    a(href="/memory/upload") 생성하기
+
