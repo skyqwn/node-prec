@@ -1,0 +1,15 @@
+extends layout.pug
+
+
+block css   
+    link(rel="stylesheet", href="static/css/style.css")
+
+block content
+
+    if user.file 
+        img(src=`${user.file}`, alt="")
+    else 
+        img(src='/static/img/user.png', alt="")
+    h1 #{user.email}
+    h1 #{user.name}
+    a(href="/profile/update") 프로필 변경하기

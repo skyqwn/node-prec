@@ -1,5 +1,5 @@
 import express from "express";
-import { isCreator, upload } from "../middleware.js";
+import { isCreator, isVerifiedEmail, upload } from "../middleware.js";
 
 import {
   detail,
@@ -13,21 +13,27 @@ import {
 
 const memoryRouter = express.Router();
 
-memoryRouter.get("/", memory);
+memoryRouter.get("/", isVerifiedEmail, memory);
 
-memoryRouter.get("/upload", memoryUpload);
+memoryRouter.get("/upload", isVerifiedEmail, memoryUpload);
 
-memoryRouter.post("/upload", upload.single("file"), memoryUploadPost);
+memoryRouter.post(
+  "/upload",
+  isVerifiedEmail,
+  upload.single("file"),
+  memoryUploadPost
+);
 
-memoryRouter.get("/:id", detail);
+memoryRouter.get("/:id", isVerifiedEmail, detail);
 
-memoryRouter.get("/:id/update", isCreator, memoryUpdate);
+memoryRouter.get("/:id/update", isVerifiedEmail, isCreator, memoryUpdate);
 memoryRouter.post(
   "/:id/update",
+  isVerifiedEmail,
   isCreator,
   upload.single("file"),
   memoryUpdatePost
 );
 
-memoryRouter.get("/:id/delete", isCreator, memoryRemove);
+memoryRouter.get("/:id/delete", isVerifiedEmail, isCreator, memoryRemove);
 export default memoryRouter;

@@ -1,0 +1,15 @@
+extends layout.pug
+
+block css
+    
+
+block content
+    if user.file
+        img(src=user.file)
+    else
+        img(src="/static/images/user.png")
+        
+    h1=user.name
+
+    a(href="/me/update")
+        button 수정하기

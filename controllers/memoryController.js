@@ -3,7 +3,7 @@ import createError from "../util/createError.js";
 
 export const memory = async (req, res, next) => {
   try {
-    const memories = await Memory.find().populate("creater");
+    const memories = await Memory.find().populate("creator");
     res.render("memory", { memories });
   } catch (error) {
     next(error);
@@ -20,13 +20,12 @@ export const memoryUploadPost = async (req, res, next) => {
     body: { title, desc },
     user,
   } = req;
-  console.log(req.file);
   try {
     const memory = new Memory({
       file: path,
       title,
       desc,
-      creater: user._id,
+      creator: user._id,
     });
     await memory.save();
     return res.redirect("/memory");
@@ -39,8 +38,9 @@ export const detail = async (req, res, next) => {
   const {
     params: { id },
   } = req;
+
   try {
-    const memory = await Memory.findById(id).populate("creater");
+    const memory = await Memory.findById(id).populate("creator");
     // const memory = await Memory.find({ _id: id });
     res.render("detail", { titleName: memory.title, memory });
   } catch (error) {
@@ -53,6 +53,7 @@ export const memoryUpdate = async (req, res, next) => {
     params: { id },
     memory,
   } = req;
+
   try {
     // const memory = await Memory.find({ _id: id });
     res.render("update", { titleName: memory.title, memory });
@@ -68,7 +69,7 @@ export const memoryUpdatePost = async (req, res, next) => {
     file,
   } = req;
   try {
-    const updatememory = await Memory.findByIdAndUpdate(
+    const updateMemory = await Memory.findByIdAndUpdate(
       id,
       {
         title,
@@ -79,7 +80,7 @@ export const memoryUpdatePost = async (req, res, next) => {
         new: true,
       }
     );
-    console.log(updatememory);
+    console.log(updateMemory);
     return res.redirect(`/memory/${id}`);
   } catch (error) {
     next(error);

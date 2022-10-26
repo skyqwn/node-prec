@@ -15,7 +15,7 @@ const MemorySchema = new Schema({
     type: String,
     required: true,
   },
-  creater: {
+  creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,

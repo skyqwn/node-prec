@@ -6,6 +6,8 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import sessions from "express-session";
 import MongoStore from "connect-mongo";
+// import csrf from "csurf";
+import flash from "connect-flash";
 dotenv.config();
 
 import globalRouter from "./routes/globalRouter.js";
@@ -15,6 +17,7 @@ import { localSetMiddleware } from "./middleware.js";
 
 const app = express();
 const port = process.env.PORT;
+// const csrfProtection = csrf();
 
 app.set("trust proxy", 1); // trust first proxy
 
@@ -67,6 +70,8 @@ app.use(
     }),
   })
 );
+// app.use(csrfProtection);
+app.use(flash());
 
 app.use(localSetMiddleware);
 

@@ -1,0 +1,17 @@
+extends layout.pug
+
+block css
+    
+block content
+    form(action="/me/update" method="post" enctype="multipart/form-data")
+        if user.file
+            img(src=`/${user.file}`)#preview.imgAvatar
+        else
+            img(src="/static/images/user.png")#preview.imgAvatar
+        #js-fileName
+        input(type="file" name="file")
+        input(type="text" name="name" value=user.name)
+        button(type="submit") 변경하기
+        
+block js
+    script(src="/static/js/imagePreview.js") 
