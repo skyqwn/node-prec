@@ -5,8 +5,8 @@ html
       .message-container
          if message.success 
             p.message#success=message.success
-         if message.error 
-            p.message#error=message.error
+         if errorMessage
+            p.message#error=errorMessage
    include nav.pug
    block content 
    include footer.pug

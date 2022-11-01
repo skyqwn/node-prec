@@ -48,10 +48,10 @@ export const detail = async (req, res, next) => {
   }
 };
 
-export const memoryUpdate = async (req, res, next) => {
+export const memoryUpdate = (req, res, next) => {
   const {
     params: { id },
-    memory,
+    memory, // 여기서 어케 한번에 메모리를 들고 올수 있지?
   } = req;
 
   try {

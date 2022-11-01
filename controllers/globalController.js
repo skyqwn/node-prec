@@ -1,42 +1,63 @@
 import crypto from "crypto";
 
 import User from "../model/User.js";
-import Memory from "../model/Memory.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import createError from "../util/createError.js";
 import nodemailer from "nodemailer";
 import sendgridTransport from "nodemailer-sendgrid-transport";
 dotenv.config();
+import { validationResult } from "express-validator";
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        "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",
+      api_key: process.env.API_KEY,
     },
   })
 );
 
 export const home = (req, res) => {
-  req.flash("success", "test");
   return res.render("home", {
     isLogin: req.session.isLogin,
     name: req.session.user,
   });
 };
 export const login = (req, res, next) => {
-  res.render("login");
+  res.render("login", {
+    oldInput: {
+      email: "",
+      password: "",
+    },
+  });
 };
 export const join = (req, res) => {
-  res.render("join");
+  res.render("join", {
+    oldInput: {
+      name: "",
+      email: "",
+      bodypassword: "",
+      passwordVerify: "",
+    },
+    validationErrors: [],
+  });
 };
 
 export const joinPost = async (req, res, next) => {
   const {
     body: { name, email, password: bodypassword, passwordVerify },
   } = req;
+  const errors = validationResult(req);
   try {
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(422).render("join", {
+        errorMessage: errors.array()[0].msg,
+        oldInput: { name, email, bodypassword, passwordVerify },
+        validationErrors: errors.array(),
+      });
+    }
+
     if (bodypassword !== passwordVerify) {
       req.flash("error", "비밀번호가 같지 않습니다.");
       return res.redirect("/join");
@@ -58,14 +79,14 @@ export const joinPost = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    const userInfo = { ...newUser._doc }; //콘솔을 찍어도 안남옴 ㅜ
+    const userInfo = { ...newUser._doc };
     const { password, ...otherInfo } = userInfo;
 
     req.session.user = otherInfo;
     await newUser.save();
 
-    req.flash("success", "로그인성공");
-    res.render("login");
+    req.flash("success", "가입성공");
+    res.redirect("login");
 
     return transporter.sendMail({
       to: email,
@@ -82,10 +103,19 @@ export const joinPost = async (req, res, next) => {
 };
 
 export const loginPost = async (req, res, next) => {
+  const errors = validationResult(req);
   const {
     body: { email, password: bodypassword }, //
   } = req;
   try {
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(422).render("login", {
+        errorMessage: errors.array()[0].msg,
+        oldInput: { email, bodypassword },
+      });
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
       req.flash("error", "등록된 이메일이 아닙니다.");
@@ -103,6 +133,8 @@ export const loginPost = async (req, res, next) => {
 
     req.session.user = otherInfo;
     req.session.isLogin = true;
+
+    //await user.save() 안해줘도 되ㄴ건가?
 
     res.redirect("/");
   } catch (error) {
@@ -231,12 +263,6 @@ export const loginVerify = async (req, res, next) => {
       req.session.user = otherInfo;
       req.session.isLogin = true;
 
-      let message = req.flash("error");
-      if (message.length > 0) {
-        message = message[0];
-      } else {
-        message = null;
-      }
       req.flash("success", "이메일인증성공!");
       res.redirect("/");
     } else {
