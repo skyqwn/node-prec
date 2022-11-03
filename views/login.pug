@@ -1,17 +1,20 @@
 extends layout.pug
 
 block content
-    
+    .center 
+            .wrapper
+                img(src="/static/images/memoryLogo.jpeg", alt="").logo
+                form(action="/login" method="POST").form-div
+                    input.text(type="email" placeholder="이메일" name="email" value= `${oldInput.email}`)
+                    input.text(type="password", placeholder="비밀번호" name="password" value= `${oldInput.bodypassword}`)
+                    input.login-btn(type="submit" value="Log In")
 
-    form(action="/login" method="POST")
-        label(for="email") E-Mail 
-        input.text(type="email" placeholder="이메일" name="email" value= `${oldInput.email}`)
-        input.text(type="password", placeholder="비밀번호" name="password" value= `${oldInput.password}`)
-        button(type="submit") 로그인
+                    
+                    .under-div 
+                        .row-line
+                        .row-content OR
+                        .row-line
 
-    a(href="/join") 회원가입
-    a(href="/passwordreset") 비밀번호 변경하기 
-
-
-        
-    
+                    .login-div
+                        a(href="/join") 회원가입
+                        a(href="/passwordreset") 비밀번호 변경하기 

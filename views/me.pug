@@ -4,12 +4,15 @@ block css
     
 
 block content
-    if user.file
-        img(src=user.file)
-    else
-        img(src="/static/images/user.png")
-        
-    h1=user.name
 
-    a(href="/me/update")
-        button 수정하기
+    .user-container
+        .user-center
+            if user.file
+                img(src=user.file).user-img
+            else
+                img(src="/static/images/user.png").user-img
+                
+            h1=user.name
+
+            a(href="/me/update")
+                button 수정하기

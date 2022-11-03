@@ -7,6 +7,8 @@ html
             p.message#success=message.success
          if errorMessage
             p.message#error=errorMessage
+         if message.error
+            p.message#error=message.error
    include nav.pug
    block content 
    include footer.pug

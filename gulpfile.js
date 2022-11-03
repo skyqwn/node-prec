@@ -10,17 +10,19 @@ import babel from "gulp-babel";
 import uglify from "gulp-uglify";
 
 const js = (cb) => {
-  return src("./src/js/**/*.js")
-    .pipe(babel())
-    .pipe(uglify())
-    .pipe(dest("static/js"));
+  src("./src/js/**/*.js").pipe(babel()).pipe(uglify()).pipe(dest("static/js"));
   cb();
 };
 
 const css = (cb) => {
-  return src("./src/sass/**/*.scss")
+  src("./src/sass/**/*.scss")
     .pipe(sass().on("error", sass.logError))
     .pipe(dest("static/css"));
+  cb();
+};
+
+const images = (cb) => {
+  src("./src/images/*").pipe(dest("static/images"));
   cb();
 };
 
@@ -28,17 +30,18 @@ const cleanJs = (cb) => {
   src("./static/js/*.js").pipe(clean({ read: false }));
   cb();
 };
-const cleanCss = (cb) => {
-  src("./static/css/*.js").pipe(clean({ read: false }));
+
+const cleanimages = (cb) => {
+  src("./static/images/*").pipe(clean({ read: false }));
   cb();
 };
 
 const watchFile = () => {
   watch("./src/js/**/*.js", cleanJs);
-  watch("./src/sass/**/*.scss", cleanCss);
-
+  watch("./src/images/*", cleanimages);
   watch("./src/js/**/*.js", js);
+  watch("./src/images/*", images);
   watch("./src/sass/**/*.scss", css);
 };
 
-export default series(cleanStatic, js, css, watchFile);
+export default series(cleanJs, cleanimages, images, js, css, watchFile);

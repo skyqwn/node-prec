@@ -1,0 +1,65 @@
+@keyframes message {
+  0% {
+    transform: translateY(-200px);
+  }
+  20% {
+    transform: translateY(20px);
+  }
+  80% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(-200px);
+  }
+}
+
+.message-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  transform: translateY(-200px);
+  justify-content: center;
+  align-items: center;
+  animation: message 2s ease-in-out;
+  .message {
+    min-width: 240px;
+    width: fit-content;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    font-weight: 600;
+  }
+  #success {
+    background-color: #2ecc71;
+    color: white;
+  }
+  #error {
+    background-color: #e74c3c;
+    color: white;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  .container {
+    margin: 0 auto;
+    max-width: 1480px;
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}

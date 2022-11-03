@@ -1,14 +1,37 @@
 import Memory from "./model/Memory.js";
 import multer from "multer";
 
-export const upload = multer({ dest: "uploads/" });
+// export const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/image");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + "-" + file.originalname);
+//   },
+// });
+
+// export const fileFilter = (req, file, cb) => {
+//   if (
+//     file.mimetype === "image/png" ||
+//     file.mimetype === "image/jpg" ||
+//     file.mimetype === "image/jpeg"
+//   ) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
+
+export const upload = multer({ dest: "uploads" });
+
+// export const upload = multer({ dest: "uploads/" });
 export const avatarMulter = multer({ dest: "uploads/avatar" });
 
 export const localSetMiddleware = (req, res, next) => {
   res.locals.isLogin = Boolean(req.session.isLogin);
   // res.locals.csrfToken = req.csrfToken();
   res.locals.message = req.flash();
-  res.locals.user = req.session.user || {};
+  res.locals.user = req.session.user || undefined;
   req.user = req.session.user || {};
   next();
 };

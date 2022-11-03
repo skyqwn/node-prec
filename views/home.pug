@@ -1,8 +1,23 @@
 extends layout.pug 
+include mixins/userBlock.pug
 
 block content 
-  if isLogin 
-    h1 안녕하세요 #{user.name} 님
+  .container
+    if user 
+      a(href="/memory/upload") 업로드
+      form(action="/memory/search" method="get")
+        input(type="text" name="term" placeholder="검색")
 
-  else 
-    h1 로그인해주세요
+      if term
+        h4 #{term}  으로 검색한 결과입니다.
+      each memory in memories 
+         a(href=`/memory/${memory.id}`) 
+            img(src=`/${memory.file}`, alt= memory.title).img
+            h1 #{memory.title}
+            +userBlock({
+              name: memory.creator.name,
+              _id: memory.creator._id
+          })
+    else 
+      h1 로그인하세요
+  

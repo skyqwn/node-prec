@@ -1,8 +1,19 @@
 nav
-    a(href="/") home
-    if isLogin
-        a(href="/logout") 로그아웃 
-        a(href="/memory") memory
-        a(href="/me") 나의 프로필 
-    else
-        a(href="/login") 로그인 
+    .navbar
+         .container
+             .navbar-container
+                .navbar-logo
+                    a(href="/")
+                        img(src="/static/images/memory.png", alt="")
+                if isLogin
+                    ul.navbar-nav-left 
+                        li
+                            a(href="/logout") 로그아웃 
+                        li
+                            a(href="/memory") memory
+                        li
+                            a(href="/me") 나의 프로필 
+                else
+                    ul.navbar-nav-right 
+                        li 
+                            a(href="/login") 로그인 

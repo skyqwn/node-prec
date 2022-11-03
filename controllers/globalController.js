@@ -1,5 +1,5 @@
 import crypto from "crypto";
-
+import Memory from "../model/Memory.js";
 import User from "../model/User.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
@@ -12,23 +12,28 @@ import { validationResult } from "express-validator";
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key: process.env.API_KEY,
+      api_key:
+        "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",
     },
   })
 );
 
-export const home = (req, res) => {
-  return res.render("home", {
-    isLogin: req.session.isLogin,
-    name: req.session.user,
-  });
+export const home = async (req, res, next) => {
+  try {
+    const memories = await Memory.find().populate("creator");
+    return res.render("home", { memories });
+  } catch (error) {
+    next(error);
+  }
 };
+
 export const login = (req, res, next) => {
   res.render("login", {
     oldInput: {
       email: "",
-      password: "",
+      bodypassword: "",
     },
+    validationErrors: [],
   });
 };
 export const join = (req, res) => {
@@ -61,18 +66,18 @@ export const joinPost = async (req, res, next) => {
     if (bodypassword !== passwordVerify) {
       req.flash("error", "비밀번호가 같지 않습니다.");
       return res.redirect("/join");
-      // return next(createError(400, "비밀번호가 같지 않습니다."));
     }
-    const existUser = await User.exists({ email }); // await을 꼭 붙여야하는가?
+    const existUser = await User.exists({ email });
 
     if (existUser) {
-      req.flash("error", "이미 사용중인 이메일입니다.");
-      return res.redirect("/join");
-      // return next(createError(400, "이미 등록된 이메일입니다."));
+      return res.status(422).render("join", {
+        errorMessage: "이미 사용중인 이메일입니다",
+        oldInput: { name, email, bodypassword, passwordVerify },
+        validationErrors: errors.array(),
+      });
     }
 
     const hashedPassword = bcrypt.hashSync(bodypassword, +process.env.BCRYPT);
-    // console.log(hashedPassword);
     const newUser = new User({
       name,
       email,
@@ -85,10 +90,7 @@ export const joinPost = async (req, res, next) => {
     req.session.user = otherInfo;
     await newUser.save();
 
-    req.flash("success", "가입성공");
-    res.redirect("login");
-
-    return transporter.sendMail({
+    await transporter.sendMail({
       to: email,
       from: "love_kimba@naver.com",
       subject: "이메일 인증입니다.",
@@ -96,9 +98,11 @@ export const joinPost = async (req, res, next) => {
       <p>링크를 클릭하세요<a href="http://localhost:3000/verify?key=${newUser.emailVerifyString}">링크</a></p>
       `,
     });
+    req.flash("success", "가입성공");
+    res.redirect("login");
   } catch (error) {
-    next(error);
     console.log(error);
+    next(error);
   }
 };
 
@@ -113,30 +117,34 @@ export const loginPost = async (req, res, next) => {
       return res.status(422).render("login", {
         errorMessage: errors.array()[0].msg,
         oldInput: { email, bodypassword },
+        validationErrors: errors.array(),
       });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      req.flash("error", "등록된 이메일이 아닙니다.");
-      return res.redirect("/login");
-      // return next(createError(400, "등록된 이메일이 없습니다."));
+      return res.status(422).render("login", {
+        errorMessage: "등록된 이메일이 아닙니다.",
+        oldInput: { email, bodypassword },
+        validationErrors: [{ param: "email", param: "password" }],
+      });
     }
     const checkPassword = bcrypt.compareSync(bodypassword, user.password);
     if (!checkPassword) {
-      req.flash("error", "비밀번호를 다시 확인해주세요.");
-      return res.redirect("/login");
+      return res.status(422).render("login", {
+        errorMessage: "비밀번호가 맞지않습니다.",
+        oldInput: { email, bodypassword },
+        validationErrors: [{ param: "email", param: "password" }],
+      });
     }
 
-    const userInfo = { ...user._doc }; //콘솔을 찍어도 안남옴 ㅜ
+    const userInfo = { ...user._doc };
     const { password, ...otherInfo } = userInfo;
 
     req.session.user = otherInfo;
     req.session.isLogin = true;
 
-    //await user.save() 안해줘도 되ㄴ건가?
-
-    res.redirect("/");
+    res.redirect("/me");
   } catch (error) {
     next(error);
   }

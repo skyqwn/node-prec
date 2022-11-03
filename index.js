@@ -19,8 +19,6 @@ const app = express();
 const port = process.env.PORT;
 // const csrfProtection = csrf();
 
-app.set("trust proxy", 1); // trust first proxy
-
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
 });

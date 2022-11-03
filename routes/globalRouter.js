@@ -15,7 +15,7 @@ import {
   meUpdatePost,
   loginVerify,
 } from "../controllers/globalController.js";
-import { avatarMulter, isVerifiedEmail } from "../middleware.js";
+import { avatarMulter } from "../middleware.js";
 
 const globalRouter = express.Router();
 
@@ -26,47 +26,53 @@ globalRouter.get("/join", join);
 globalRouter.post(
   "/join",
   [
-    check("email")
+    body("email")
       .isEmail()
       .withMessage("유효한 이메일을 입력해주세요")
+      .normalizeEmail(),
+    body("password", "비밀번호는 최소 5글자 이상으로 입력바랍니다.")
+      .isLength({ min: 5 })
+      .isAlphanumeric()
+      .trim(),
+    body("passwordVerify")
+      .trim()
       .custom((value, { req }) => {
-        if (value === "test@test.com") {
-          throw new Error("이 이메일 주소는 존재하지 않습니다.");
+        if (value !== req.body.password) {
+          throw new Error("패스워드가 일치하지 않습니다.");
         }
         return true;
       }),
-    body("password", "비밀번호는 최소 5글자 이상으로 입력바랍니다.")
-      .isLength({ min: 5 })
-      .isAlphanumeric(),
-    body("passwordVerify").custom((value, { req }) => {
-      if (value === req.body.password) {
-        throw new Error("패스워드가 일치하지 않습니다.");
-      }
-      return true;
-    }),
   ],
   joinPost
 );
 
 globalRouter.get("/login", login);
 
-globalRouter.post("/login", loginPost);
+globalRouter.post(
+  "/login",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please enter a valid email address")
+      .normalizeEmail(),
+    body("password", "패스워드가 너무짧아요.")
+      .isLength({ min: 5 })
+      .isAlphanumeric()
+      .trim(),
+  ],
+  loginPost
+);
 
 globalRouter.route("/logout").get(logout);
 
-globalRouter.get("/passwordreset", isVerifiedEmail, resetPassword);
+globalRouter.get("/passwordreset", resetPassword);
 
-globalRouter.post("/passwordreset", isVerifiedEmail, postResetPassword);
+globalRouter.post("/passwordreset", postResetPassword);
 
-globalRouter.get("/me", isVerifiedEmail, me);
+globalRouter.get("/me", me);
 
-globalRouter.get("/me/update", isVerifiedEmail, meUpdate);
-globalRouter.post(
-  "/me/update",
-  isVerifiedEmail,
-  avatarMulter.single("file"),
-  meUpdatePost
-);
+globalRouter.get("/me/update", meUpdate);
+globalRouter.post("/me/update", avatarMulter.single("file"), meUpdatePost);
 
 globalRouter.get("/verify", loginVerify);
 

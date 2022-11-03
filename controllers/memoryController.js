@@ -98,3 +98,24 @@ export const memoryRemove = async (req, res, next) => {
     next(error);
   }
 };
+
+export const search = async (req, res, next) => {
+  const {
+    query: { term },
+  } = req;
+  try {
+    if (!term) {
+      console.log(1);
+      req.flash("error", "일치하는 검색이 없습니다.");
+      return res.redirect("/");
+    }
+
+    const searchedMemory = await Memory.find({
+      title: { $regex: term },
+    }).populate("creator");
+    res.render("home", { memories: searchedMemory, term });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};

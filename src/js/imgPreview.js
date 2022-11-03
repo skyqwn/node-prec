@@ -1,7 +1,7 @@
 const img = document.querySelector("img");
 const title = document.querySelector("input[name=title]");
 const desc = document.querySelector("input[name=desc]");
-const file = document.querySelector("input[name=file]");
+const file = document.querySelector("input[type=file]");
 
 file.style.display = "none";
 
