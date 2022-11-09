@@ -27,6 +27,7 @@ if (process.env.NODE_ENV === "production") {
   mongoUrl = process.env.DEV_MONGO_URL;
 }
 
+console.log(mongoUrl);
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
 });
@@ -53,7 +54,11 @@ const cspOptions = {
 
     "script-src": ["'self'"],
 
-    "img-src": ["'self'", "blob:"],
+    "img-src": [
+      "'self'",
+      "blob:",
+      "https://memory-node.s3.ap-northeast-2.amazonaws.com",
+    ],
   },
 };
 

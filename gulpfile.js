@@ -1,5 +1,7 @@
 import gulpPkg from "gulp";
 import clean from "gulp-clean";
+import dotenv from "dotenv";
+dotenv.config();
 const { src, dest, watch, series } = gulpPkg;
 
 import defaultSass from "sass";
@@ -44,4 +46,5 @@ const watchFile = () => {
   watch("./src/sass/**/*.scss", css);
 };
 
-export default series(cleanJs, cleanimages, images, js, css, watchFile);
+export const dev = series(js, css, images, watchFile);
+export const prod = series(js, css, images);

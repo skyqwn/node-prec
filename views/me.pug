@@ -8,9 +8,9 @@ block content
     .user-container
         .user-center
             if user.file
-                img(src=user.file).user-img
+                img(src=user.file crossorigin="anonymous").user-img
             else
-                img(src="/static/images/user.png").user-img
+                img(src="/static/images/user.png" crossorigin="anonymous").user-img
                 
             h1=user.name
 

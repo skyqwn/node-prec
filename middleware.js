@@ -1,6 +1,39 @@
 import Memory from "./model/Memory.js";
 import multer from "multer";
+import dotenv from "dotenv";
+dotenv.config();
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
 
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_S3_ACCESS,
+  secretAccessKey: process.env.AWS_S3_SCERET,
+  region: process.env.AWS_S3_REGION,
+});
+
+export const S3MulterUpload = multer({
+  storage: multerS3({
+    s3,
+    bucket: process.env.AWS_S3_BUCKET,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      console.log(file);
+      cb(null, Date.now() + file.originalname);
+    },
+  }),
+});
+
+// export const avatarMulter = multer({
+//   storage: multerS3({
+//     s3,
+//     bucket: process.env.AWS_S3_BUCKET,
+//     acl: "public-read",
+//     key: function (req, file, cb) {
+//       console.log(file);
+//       cb(null, Date.now() + file.originalname);
+//     },
+//   }),
+// });
 // export const fileStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
 //     cb(null, "uploads/image");
@@ -22,10 +55,8 @@ import multer from "multer";
 //   }
 // };
 
-export const upload = multer({ dest: "uploads" });
-
-// export const upload = multer({ dest: "uploads/" });
-export const avatarMulter = multer({ dest: "uploads/avatar" });
+// export const upload = multer({ dest: "uploads" });
+// export const avatarMulter = multer({ dest: "uploads/avatar" });
 
 export const localSetMiddleware = (req, res, next) => {
   res.locals.isLogin = Boolean(req.session.isLogin);

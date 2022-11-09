@@ -5,7 +5,7 @@ include mixins/userBlock.pug
 block content
     .container
         .form
-            img(src=`/${memory.file}`, alt= memory.title).img
+            img(src=`${memory.file}`, alt= memory.title, crossorigin="anonymous").img
             h1 #{memory.title}
             h2 #{memory.desc}
             +userBlock({

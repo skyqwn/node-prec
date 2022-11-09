@@ -1,5 +1,5 @@
 import express from "express";
-import { isCreator, isVerifiedEmail, upload } from "../middleware.js";
+import { isCreator, isVerifiedEmail, S3MulterUpload } from "../middleware.js";
 
 import {
   detail,
@@ -23,7 +23,7 @@ memoryRouter.get("/upload", memoryUpload);
 memoryRouter.post(
   "/upload",
 
-  upload.single("file"),
+  S3MulterUpload.single("file"),
   memoryUploadPost
 );
 
@@ -34,7 +34,7 @@ memoryRouter.post(
   "/:id/update",
 
   isCreator,
-  upload.single("file"),
+  S3MulterUpload.single("file"),
   memoryUpdatePost
 );
 

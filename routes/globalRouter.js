@@ -15,7 +15,7 @@ import {
   meUpdatePost,
   loginVerify,
 } from "../controllers/globalController.js";
-import { avatarMulter } from "../middleware.js";
+import { S3MulterUpload } from "../middleware.js";
 
 const globalRouter = express.Router();
 
@@ -72,7 +72,7 @@ globalRouter.post("/passwordreset", postResetPassword);
 globalRouter.get("/me", me);
 
 globalRouter.get("/me/update", meUpdate);
-globalRouter.post("/me/update", avatarMulter.single("file"), meUpdatePost);
+globalRouter.post("/me/update", S3MulterUpload.single("file"), meUpdatePost);
 
 globalRouter.get("/verify", loginVerify);
 

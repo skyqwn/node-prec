@@ -15,17 +15,18 @@ export const memoryUpload = (req, res) => {
 
 export const memoryUploadPost = async (req, res, next) => {
   const {
-    file: { path },
+    file: { location },
     body: { title, desc },
     user,
   } = req;
   try {
     const memory = new Memory({
-      file: path,
+      file: location,
       title,
       desc,
       creator: user._id,
     });
+    console.log(memory);
     await memory.save();
     req.flash("success", "업로드 성공");
     return res.redirect("/memory");

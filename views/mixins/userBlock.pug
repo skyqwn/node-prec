@@ -2,7 +2,7 @@ mixin userBlock(user={})
     .creator
         a(href=`/user/${user._id}`)
             if user.file 
-                img(src=`/${user.file}`, alt="")
+                img(src=`${user.file}`, alt="", crossorigin="anonymous")
             else 
                 img(src="/static/images/user.png")
             h2 #{user.name}

@@ -235,7 +235,7 @@ export const meUpdatePost = async (req, res, next) => {
       user._id,
       {
         name,
-        file: file?.path,
+        file: file?.location,
       },
       { new: true }
     );
