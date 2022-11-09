@@ -1,18 +1,15 @@
 extends layout.pug 
 
 block content
+    .form 
+        img(src="/static/images/memoryLogo.jpeg", alt="").logo
+        form.form-div(action="/join" method="post" novalidate) 
+            input.text(class=validationErrors.email ? "error" : "" type="text", name="name" placeholder="이름" value= `${oldInput.name}`)
+            input.text(type="email" name="email" placeholder="이메일" value= `${oldInput.email}`)
+            input.text(type="password" name="password" placeholder="비밀번호" value= `${oldInput.bodypassword}`)
+            input.text(type="password" name="passwordVerify" placeholder="비밀번호 확인" value= `${oldInput.passwordVerify}`)
+            input.login-btn(type="submit" value="Sign In")
 
-
-    .center 
-        .wrapper 
-            img(src="/static/images/memoryLogo.jpeg", alt="").logo
-            form.form-div(action="/join" method="post" novalidate) 
-                input.text(class=validationErrors.email ? "error" : "" type="text", name="name" placeholder="이름" value= `${oldInput.name}`)
-                input.text(type="email" name="email" placeholder="이메일" value= `${oldInput.email}`)
-                input.text(type="password" name="password" placeholder="비밀번호" value= `${oldInput.bodypassword}`)
-                input.text(type="password" name="passwordVerify" placeholder="비밀번호 확인" value= `${oldInput.passwordVerify}`)
-                button.join-btn 회원가입 완료
-
-            .join-div
-                sapn 계정이 있으신가요?
+            .linkDiv
+                span 계정이 있으신가요?
                 a(href="/login") 로그인

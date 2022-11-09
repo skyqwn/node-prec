@@ -3,21 +3,27 @@ include mixins/userBlock.pug
 
 block content 
   .container
-    if user 
-      a(href="/memory/upload") 업로드
-      form(action="/memory/search" method="get")
-        input(type="text" name="term" placeholder="검색")
+    .home
+      if user 
+        .home__head
+          a(href="/memory/upload").upload-btn 업로드 
+          form(action="/memory/search" method="get")
+            input(type="text" name="term" placeholder="검색")
+        .home__body
+          if term
+            h4 #{term}  으로 검색한 결과입니다.
+          .memoryWrapper
+            each memory in memories
+              .memory 
+                a(href=`/memory/${memory.id}`) 
+                  img(src=`/${memory.file}`, alt= memory.title).img
+                  h1 #{memory.title}
+                  .memory__creator
+                    +userBlock({
+                      name: memory.creator.name,
+                      _id: memory.creator._id,
+                      file: memory.creator.file
+                    })
+      else 
+        h1 로그인하세요
 
-      if term
-        h4 #{term}  으로 검색한 결과입니다.
-      each memory in memories 
-         a(href=`/memory/${memory.id}`) 
-            img(src=`/${memory.file}`, alt= memory.title).img
-            h1 #{memory.title}
-            +userBlock({
-              name: memory.creator.name,
-              _id: memory.creator._id
-          })
-    else 
-      h1 로그인하세요
-  

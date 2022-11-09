@@ -7,11 +7,9 @@ export const detail = async (req, res, next) => {
   } = req;
   try {
     const findUser = await User.findById(id);
-    // console.log(findUser);
     const memories = await Memory.find({ creator: findUser }).populate(
       "creator"
     );
-    console.log(memories);
     res.render("userdetail", { user: findUser, memories });
   } catch (error) {
     next(error);

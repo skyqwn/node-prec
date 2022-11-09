@@ -1,0 +1,39 @@
+.home {
+  &__head {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+    height: 50px;
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: inherit;
+      background-color: blueviolet;
+      color: white;
+    }
+    form {
+      height: inherit;
+      input {
+        height: inherit;
+        width: 100px;
+        border-bottom: 1px solid black;
+        font-size: 18px;
+        width: 200px;
+        padding: 0 10px;
+        transition: all 0.2s ease-in-out;
+        &:focus {
+          border-bottom: 3px solid black;
+        }
+      }
+    }
+  }
+  &__body {
+    margin-top: 50px;
+    .memoryWrapper {
+      display: flex;
+      gap: 20px;
+    }
+  }
+}

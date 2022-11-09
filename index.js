@@ -19,7 +19,15 @@ const app = express();
 const port = process.env.PORT;
 // const csrfProtection = csrf();
 
-mongoose.connect(process.env.MONGO_URL, {
+let mongoUrl;
+
+if (process.env.NODE_ENV === "production") {
+  mongoUrl = process.env.PROD_MONGO_URL;
+} else {
+  mongoUrl = process.env.DEV_MONGO_URL;
+}
+
+mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
 });
 
@@ -54,7 +62,9 @@ app.use(
     contentSecurityPolicy: cspOptions,
   })
 );
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "developement") {
+  app.use(morgan("dev"));
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -64,7 +74,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
+      mongoUrl,
     }),
   })
 );

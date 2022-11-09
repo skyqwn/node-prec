@@ -1,0 +1,62 @@
+.form {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+.form img {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.form form {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form form input {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.form form input[type=submit] {
+  background-color: rgb(120, 120, 232);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.form form input[type=submit]:hover {
+  background-color: rgb(59, 59, 213);
+}
+.form form .under-div {
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  flex-direction: row;
+  align-items: center;
+}
+.form form .under-div .row-line {
+  background-color: #dbdbdb;
+  height: 1px;
+  width: 50%;
+}
+.form form .under-div .row-content {
+  font-weight: 600;
+  color: #dbdbdb;
+  padding: 0px 20px;
+}
+.form form .linkDiv {
+  margin-top: 20px;
+  text-align: center;
+}
+.form form .linkDiv a {
+  margin-left: 10px;
+  text-decoration: underline;
+}

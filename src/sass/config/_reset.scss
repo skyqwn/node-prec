@@ -1,3 +1,5 @@
+@import "color";
+
 blockquote,
 body,
 dd,
@@ -64,4 +66,14 @@ table {
 td,
 th {
   padding: 0;
+}
+a {
+  text-decoration: none;
+  color: $textColor;
+}
+input,
+textarea {
+  border: none;
+  outline: none;
+  resize: none;
 }

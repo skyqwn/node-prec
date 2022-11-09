@@ -1,0 +1,178 @@
+@use "config/reset";
+@use "config/global.scss";
+@import "config/color";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap");
+$primary-color: #333;
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+.text {
+  all: unset;
+  padding: 10px;
+  border: 1px solid #dbdbdb;
+  margin-top: 10px;
+}
+.logo {
+  width: 250px;
+  height: 200px;
+}
+
+.join-btn,
+.login-btn {
+  all: unset;
+  background-color: rgba(0, 149, 246, 0.3);
+  text-align: center;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.join-btn:hover,
+.login-btn:hover {
+  background-color: #0095f6;
+  cursor: pointer;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 350px;
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  padding: 40px;
+  margin: 20px;
+}
+
+.under-div {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row-line {
+  background-color: #dbdbdb;
+  height: 1px;
+  width: 140px;
+}
+
+.row-content {
+  font-weight: 600;
+  color: #dbdbdb;
+  padding: 0px 20px;
+}
+
+.login-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.login-div a,
+.join-div a {
+  text-decoration: none;
+  color: #385185;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 6%),
+    0 0 2px rgb(0 0 0 / 7%);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo img {
+  width: 50px;
+  height: 50px;
+}
+
+.navbar ul {
+  display: flex;
+  align-items: center;
+}
+
+.navbar li {
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.navbar a {
+  color: #000;
+  text-decoration: none;
+}
+
+//------------------me page ----------------------
+
+.user-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.user-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.join-div {
+  display: flex;
+  margin-top: 10px;
+  font-size: 12px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.user-img {
+  object-fit: cover;
+}
+
+.user-host-container {
+  margin: 100px;
+  padding: 20px;
+  display: flex;
+}
+.user-host {
+  display: flex;
+  flex-direction: column;
+}
+
+.creator {
+  display: flex;
+  align-items: center;
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 5px;
+    margin: 5px;
+  }
+}

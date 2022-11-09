@@ -1,5 +1,4 @@
 import Memory from "../model/Memory.js";
-import createError from "../util/createError.js";
 
 export const memory = async (req, res, next) => {
   try {
@@ -28,6 +27,7 @@ export const memoryUploadPost = async (req, res, next) => {
       creator: user._id,
     });
     await memory.save();
+    req.flash("success", "업로드 성공");
     return res.redirect("/memory");
   } catch (error) {
     next(error);
@@ -41,7 +41,6 @@ export const detail = async (req, res, next) => {
 
   try {
     const memory = await Memory.findById(id).populate("creator");
-    // const memory = await Memory.find({ _id: id });
     res.render("detail", { titleName: memory.title, memory });
   } catch (error) {
     next(error);
@@ -51,7 +50,7 @@ export const detail = async (req, res, next) => {
 export const memoryUpdate = (req, res, next) => {
   const {
     params: { id },
-    memory, // 여기서 어케 한번에 메모리를 들고 올수 있지?
+    memory,
   } = req;
 
   try {
@@ -80,7 +79,7 @@ export const memoryUpdatePost = async (req, res, next) => {
         new: true,
       }
     );
-    console.log(updateMemory);
+    req.flash("success", "업데이트 성공");
     return res.redirect(`/memory/${id}`);
   } catch (error) {
     next(error);
@@ -105,7 +104,6 @@ export const search = async (req, res, next) => {
   } = req;
   try {
     if (!term) {
-      console.log(1);
       req.flash("error", "일치하는 검색이 없습니다.");
       return res.redirect("/");
     }

@@ -4,24 +4,20 @@ block css
     
 
 block content
-    .container
-        .user-container
-            .user-center
-                if user.file
-                    img(src=`/${user.file}`).user-img
-                else
-                    img(src="/static/images/user.png").user-img
-                    
-                h1=user.name
+    if user.file
+        img(src=`/${user.file}`).user-img
+    else
+        img(src="/static/images/user.png").user-img
+        
+    h1=user.name
 
-                .user-host-container
-                        each memory in memories 
-                            a(href=`/memory/${memory.id}`) 
-                                .user-host
-                                    img(src=`/${memory.file}`, alt= memory.title).img
-                                    h1 #{memory.title}   
-                                    +userBlock({
-                                        name: memory.creator.name,
-                                        _id: memory.creator._id
-                                    })
-                                  
+            each memory in memories 
+                a(href=`/memory/${memory.id}`) 
+                    .user-host
+                        img(src=`/${memory.file}`, alt= memory.title).img
+                        h1 #{memory.title}   
+                        +userBlock({
+                            name: memory.creator.name,
+                            _id: memory.creator._id,
+                            file: memory.creator.file
+                        })

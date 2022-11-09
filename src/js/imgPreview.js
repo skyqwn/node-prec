@@ -1,4 +1,4 @@
-const img = document.querySelector("img");
+const img = document.getElementById("preview");
 const title = document.querySelector("input[name=title]");
 const desc = document.querySelector("input[name=desc]");
 const file = document.querySelector("input[type=file]");
@@ -19,5 +19,7 @@ const changeImage = (e) => {
   img.src = blob;
 };
 
-img.addEventListener("click", () => file.click());
+img.addEventListener("click", () => {
+  file.click();
+});
 file.addEventListener("change", changeImage);

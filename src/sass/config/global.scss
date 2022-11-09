@@ -1,3 +1,5 @@
+@import "_color";
+
 @keyframes message {
   0% {
     transform: translateY(-200px);
@@ -47,6 +49,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  color: $textColor;
 }
 
 body {

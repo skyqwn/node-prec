@@ -2,9 +2,9 @@ extends layout.pug
 
 block content
 
-    div.form
+    .form
         form(action="/memory/upload", method="post" enctype="multipart/form-data") 
             input(type="file", name="file")
             input(type="text", name="title" placeholder="제목")
             input(type="text", name="desc" placeholder="내용")
-            button(type="submit") 전송하기
+            input(type="submit" value="업로드")

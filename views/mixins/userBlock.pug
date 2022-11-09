@@ -1,4 +1,8 @@
 mixin userBlock(user={})
-    a(href=`/user/${user._id}`)
-        h3 글쓴이:#{user.name}
-
+    .creator
+        a(href=`/user/${user._id}`)
+            if user.file 
+                img(src=`/${user.file}`, alt="")
+            else 
+                img(src="/static/images/user.png")
+            h2 #{user.name}

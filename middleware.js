@@ -53,9 +53,9 @@ export const isCreator = async (req, res, next) => {
 };
 
 export const isVerifiedEmail = (req, res, next) => {
-  const { user } = req;
+  const { user } = req; // ㅇ어디서 나온겨
   if (!user.emailVerify) {
-    req.flash("error", "이메일 인증이 안됌");
+    req.flash("error", "이메일 인증을 먼저 해주세요!");
     return res.redirect("/join");
   }
   next();

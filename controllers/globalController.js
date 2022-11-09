@@ -3,7 +3,7 @@ import Memory from "../model/Memory.js";
 import User from "../model/User.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import createError from "../util/createError.js";
+import deletePassword from "../util/deletePassword.js";
 import nodemailer from "nodemailer";
 import sendgridTransport from "nodemailer-sendgrid-transport";
 dotenv.config();
@@ -84,11 +84,11 @@ export const joinPost = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    const userInfo = { ...newUser._doc };
-    const { password, ...otherInfo } = userInfo;
-
-    req.session.user = otherInfo;
     await newUser.save();
+
+    const noPwUser = deletePassword(newUser);
+    req.session.user = noPwUser;
+    req.flash("success", "회원가입성공!");
 
     await transporter.sendMail({
       to: email,
@@ -138,11 +138,9 @@ export const loginPost = async (req, res, next) => {
       });
     }
 
-    const userInfo = { ...user._doc };
-    const { password, ...otherInfo } = userInfo;
-
-    req.session.user = otherInfo;
-    req.session.isLogin = true;
+    const noPwUser = deletePassword(user);
+    req.session.user = noPwUser;
+    req.flash("success", `안녕하세요 ${user.name}님`);
 
     res.redirect("/me");
   } catch (error) {
@@ -152,8 +150,10 @@ export const loginPost = async (req, res, next) => {
 
 export const logout = (req, res) => {
   req.session.destroy();
-  res.redirect("/");
+  req.flash("success", "로그아웃 하셨습니다.");
+  return res.redirect("/");
 };
+
 export const resetPassword = (req, res, next) => {
   let message = req.flash("error");
   if (message.length > 0) {
@@ -239,12 +239,9 @@ export const meUpdatePost = async (req, res, next) => {
       },
       { new: true }
     );
-    const userInfo = { ...updateUser._doc };
 
-    const { password, ...otherInfo } = userInfo;
-
-    req.session.user = otherInfo;
-    req.session.isLogin = true;
+    const noPwUser = deletePassword(updateUser);
+    req.session.user = noPwUser;
 
     return res.redirect("/me");
   } catch (error) {
@@ -264,17 +261,12 @@ export const loginVerify = async (req, res, next) => {
       newUser.emailVerify = true;
       await newUser.save();
 
-      const userInfo = { ...newUser._doc };
-
-      const { password, ...otherInfo } = userInfo;
-
-      req.session.user = otherInfo;
-      req.session.isLogin = true;
-
-      req.flash("success", "이메일인증성공!");
-      res.redirect("/");
+      const noPwUser = deletePassword(newUser);
+      req.session.user = noPwUser;
+      req.flash("success", `${newUser.name}님의 이일 인증 성공`);
+      return res.redirect("/");
     } else {
-      console.log("인증이 되지 않았습니다.");
+      console.log("인증에 실패하였습니다.");
     }
   } catch (error) {
     next(error);
