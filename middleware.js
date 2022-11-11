@@ -23,41 +23,6 @@ export const S3MulterUpload = multer({
   }),
 });
 
-// export const avatarMulter = multer({
-//   storage: multerS3({
-//     s3,
-//     bucket: process.env.AWS_S3_BUCKET,
-//     acl: "public-read",
-//     key: function (req, file, cb) {
-//       console.log(file);
-//       cb(null, Date.now() + file.originalname);
-//     },
-//   }),
-// });
-// export const fileStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "uploads/image");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().toISOString() + "-" + file.originalname);
-//   },
-// });
-
-// export const fileFilter = (req, file, cb) => {
-//   if (
-//     file.mimetype === "image/png" ||
-//     file.mimetype === "image/jpg" ||
-//     file.mimetype === "image/jpeg"
-//   ) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-
-// export const upload = multer({ dest: "uploads" });
-// export const avatarMulter = multer({ dest: "uploads/avatar" });
-
 export const localSetMiddleware = (req, res, next) => {
   res.locals.isLogin = Boolean(req.session.isLogin);
   // res.locals.csrfToken = req.csrfToken();
@@ -84,7 +49,7 @@ export const isCreator = async (req, res, next) => {
 };
 
 export const isVerifiedEmail = (req, res, next) => {
-  const { user } = req; // ㅇ어디서 나온겨
+  const { user } = req; //
   if (!user.emailVerify) {
     req.flash("error", "이메일 인증을 먼저 해주세요!");
     return res.redirect("/join");
