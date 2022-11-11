@@ -1,8 +1,10 @@
 import gulpPkg from "gulp";
+const { src, dest, watch, series } = gulpPkg;
 import clean from "gulp-clean";
+// import cleanCss from "gulp-clean-css'";
+import cleanCss from "gulp-clean-css";
 import dotenv from "dotenv";
 dotenv.config();
-const { src, dest, watch, series } = gulpPkg;
 
 import defaultSass from "sass";
 import gulpSass from "gulp-sass";
@@ -19,6 +21,7 @@ const js = (cb) => {
 const css = (cb) => {
   src("./src/sass/**/*.scss")
     .pipe(sass().on("error", sass.logError))
+    .pipe(cleanCss({ compatibility: "ie8" }))
     .pipe(dest("static/css"));
   cb();
 };
@@ -29,22 +32,28 @@ const images = (cb) => {
 };
 
 const cleanJs = (cb) => {
-  src("./static/js/*.js").pipe(clean({ read: false }));
+  src("./static/js/*.js").pipe(clean({ allowEmpty: true, read: false }));
   cb();
 };
 
-const cleanimages = (cb) => {
-  src("./static/images/*").pipe(clean({ read: false }));
+const cleanCSS = (cb) => {
+  src("./static/css/*.css").pipe(clean({ allowEmpty: true, read: false }));
+  cb();
+};
+
+const cleanImages = (cb) => {
+  src("./static/images/*").pipe(clean({ allowEmpty: true, read: false }));
   cb();
 };
 
 const watchFile = () => {
   watch("./src/js/**/*.js", cleanJs);
-  watch("./src/images/*", cleanimages);
+  watch("./src/images/*", cleanImages);
   watch("./src/js/**/*.js", js);
   watch("./src/images/*", images);
   watch("./src/sass/**/*.scss", css);
 };
 
 export const dev = series(js, css, images, watchFile);
-export const prod = series(js, css, images);
+export const prod = series(cleanJs, cleanCSS, cleanImages, js, css, images);
+//export default series(js, css, image, watchFiles);

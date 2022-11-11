@@ -27,7 +27,6 @@ if (process.env.NODE_ENV === "production") {
   mongoUrl = process.env.DEV_MONGO_URL;
 }
 
-console.log(mongoUrl);
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
 });

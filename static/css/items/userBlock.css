@@ -1,9 +1,1 @@
-.creator a {
-  display: flex;
-  gap: 5px;
-}
-.creator a img {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-}
+.creator a{display:flex;gap:5px}.creator a img{width:20px;height:20px;border-radius:50%}
