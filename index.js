@@ -16,7 +16,7 @@ import memoryRouter from "./routes/memoryRouter.js";
 import { localSetMiddleware } from "./middleware.js";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 // const csrfProtection = csrf();
 
 let mongoUrl;
