@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "heroku-prebuild": "gulp prod",
+    "heroku-prebuild": "npm ci",
+    "build": "gulp prod",
     "dev:server": "export NODE_ENV=developement && nodemon index.js",
     "dev:assets": "gulp dev"
   },
