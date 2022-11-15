@@ -17,7 +17,6 @@ export const S3MulterUpload = multer({
     bucket: process.env.AWS_S3_BUCKET,
     acl: "public-read",
     key: function (req, file, cb) {
-      console.log(file);
       cb(null, Date.now() + file.originalname);
     },
   }),

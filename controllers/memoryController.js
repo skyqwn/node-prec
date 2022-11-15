@@ -28,7 +28,7 @@ export const memoryUploadPost = async (req, res, next) => {
     });
     console.log(memory);
     await memory.save();
-    req.flash("success", "업로드 성공");
+    req.flash("success", "업로드 성공!!");
     return res.redirect("/memory");
   } catch (error) {
     next(error);
