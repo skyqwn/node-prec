@@ -4,7 +4,10 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "vercel-sapper"
+      "use": "vercel-sapper",
+      "config": {
+        "include": ["static"]
+      }
     }
   ],
   "routes": [
