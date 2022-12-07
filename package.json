@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "gulp prod node index.js",
-    "build": "gulp prod",
+    "start": "node index.js",
+    "build": "[memories] bulid --output public && gulp prod",
     "dev:server": "export NODE_ENV=developement && nodemon index.js",
     "dev:assets": "gulp dev"
   },
