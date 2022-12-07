@@ -2,7 +2,7 @@ extends layout.pug
 
 block content
     .form
-        img(src="/static/images/memoryLogo.jpeg", alt="").logo
+        img(src="/static/images/memoryLogo.jpeg", alt="" crossorigin="anonymous").logo
         form(action="/login" method="POST").form-div
             input.text(type="email" placeholder="이메일" name="email" value= `${oldInput.email}`)
             input.text(type="password", placeholder="비밀번호" name="password" value= `${oldInput.bodypassword}`)

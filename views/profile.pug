@@ -7,9 +7,9 @@ block css
 block content
 
     if user.file 
-        img(src=`${user.file}`, alt="")
+        img(src=`${user.file}`, alt="" crossorigin="anonymous")
     else 
-        img(src='/static/img/user.png', alt="")
+        img(src='/static/img/user.png', alt="" crossorigin="anonymous")
     h1 #{user.email}
     h1 #{user.name}
     a(href="/profile/update") 프로필 변경하기

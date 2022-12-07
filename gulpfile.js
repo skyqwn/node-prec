@@ -14,7 +14,8 @@ import babel from "gulp-babel";
 import uglify from "gulp-uglify";
 
 const js = (cb) => {
-  src("./src/js/**/*.js").pipe(babel()).pipe(uglify()).pipe(dest("static/js"));
+  src("./src/js/**/*.js").pipe(babel()).pipe(dest("static/js"));
+  // src("./src/js/**/*.js").pipe(babel()).pipe(uglify()).pipe(dest("static/js"));
   cb();
 };
 

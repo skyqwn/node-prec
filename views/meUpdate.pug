@@ -6,9 +6,9 @@ block content
     .form
         form(action="/me/update" method="post" enctype="multipart/form-data")
             if user.file
-                img(src=`/${user.file}`)#preview.imgAvatar
+                img(src=user.file crossorigin="anonymous")#preview.imgAvatar
             else
-                img(src="/static/images/user.png")#preview.imgAvatar
+                img(src="/static/images/user.png" crossorigin="anonymous")#preview.imgAvatar
             #js-fileName
             input(type="file" name="file")
             input(type="text" name="name" value=user.name)

@@ -5,9 +5,9 @@ block content
         div.user-message #{errorMessage}
 
     if user.file 
-        img(src=`${user.file}`, alt="")
+        img(src=`${user.file}`, alt="" crossorigin="anonymous")
     else 
-        img(src='/static/img/user.png', alt="")
+        img(src='/static/img/user.png', alt="" crossorigin="anonymous")
 
     form(action="/profile/update" method="post" enctype="multipart/form-data")
         input(type="file", name="file")

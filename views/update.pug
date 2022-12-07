@@ -3,7 +3,7 @@ extends layout.pug
 block content
 
     div.form
-        img(src= `/${memory.file}`, alt= memory.title).img
+        img(src= memory.file, alt= memory.title crossorigin="anonymous" id="preview").img
         form(action=`/memory/${memory._id}/update`, method="post" enctype="multipart/form-data")         
             input(type="file", name="file" )
             input(type="text", name="title" placeholder="제목" value=memory.title)
