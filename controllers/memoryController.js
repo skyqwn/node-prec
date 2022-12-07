@@ -26,7 +26,6 @@ export const memoryUploadPost = async (req, res, next) => {
       desc,
       creator: user._id,
     });
-    console.log(memory);
     await memory.save();
     req.flash("success", "업로드 성공!!");
     return res.redirect("/memory");
