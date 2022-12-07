@@ -44,7 +44,8 @@
     "pug": "^3.0.2",
     "sass": "^1.55.0",
     "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "vercel-sapper": "^0.44.0"
   },
   "devDependencies": {
     "browser-sync": "^2.27.10"
