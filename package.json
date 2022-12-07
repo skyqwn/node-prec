@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "heroku-prebuild": "npm ci",
-    "build": "[memories] bulid --output public",
+    "build": "gulp prod",
     "dev:server": "export NODE_ENV=developement && nodemon index.js",
     "dev:assets": "gulp dev"
   },
