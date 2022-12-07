@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
 import mongoose from "mongoose";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -8,7 +10,10 @@ import sessions from "express-session";
 import MongoStore from "connect-mongo";
 // import csrf from "csurf";
 import flash from "connect-flash";
-dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import globalRouter from "./routes/globalRouter.js";
 import userRouter from "./routes/userRouter.js";
