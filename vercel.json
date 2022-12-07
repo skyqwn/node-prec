@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "builds": [
     {
       "src": "package.json",
@@ -11,7 +12,5 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ],
-
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  ]
 }
