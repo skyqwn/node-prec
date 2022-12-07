@@ -37,8 +37,8 @@ mongoose.connect(mongoUrl, {
 });
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "/views"));
-app.use("/static", express.static("static"));
-app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static(__dirname + "/static"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 const errorHandler = () => {
   console.log("❌연결을 실패하였습니다.");
